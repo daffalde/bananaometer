@@ -50,7 +50,20 @@ export default function Home() {
         <img className="footer-image2" src="/footer2.png" alt="footer image" />
         <img className="footer-image3" src="/footer3.png" alt="footer image" />
         <img className="footer-image1" src="/footer1.png" alt="footer image" />
-        <div id="Meter"></div>
+        <div id="Meter">
+          <div className="meter-content">
+            <div className="m-c-upload">
+              <img src="/upload.png" alt="upload icon" />
+              <h5>Unggah foto kamu</h5>
+              <h6>Drag & drop foto kamu atau klik area ini.</h6>
+              <input type="file" name="" id="" />
+            </div>
+            <div className="m-c-info">
+              <img src="/banana-image.png" alt="banana image" />
+              <h3>Informasi mu akan muncul disini nanti</h3>
+            </div>
+          </div>
+        </div>
         <div id="About">
           <div className="about-content">
             <div className="about-image">

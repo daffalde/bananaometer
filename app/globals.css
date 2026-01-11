@@ -34,6 +34,18 @@ h4 {
   font-size: 1.2rem;
   font-weight: 700;
 }
+h3 {
+  font-family: var(--font-jakarta);
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--black);
+}
+h6 {
+  font-family: var(--font-jakarta);
+  font-size: 1rem;
+  font-weight: 400;
+  color: hsl(0, 0%, 70%);
+}
 p {
   font-family: var(--font-jakarta);
   font-size: 1rem;
@@ -162,7 +174,7 @@ p {
   background-color: var(--black-transparent);
 }
 
-/* meter section_________________ */
+/* down section_________________ */
 .meter {
   width: 100%;
   height: 200vh;
@@ -197,10 +209,60 @@ p {
   z-index: 0;
 }
 
+/* meter section_________________ */
 #Meter {
   max-width: 1440px;
   width: 100%;
   height: 100dvh;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.meter-content {
+  background-color: white;
+  border-radius: 40px;
+  width: fit-content;
+  height: fit-content;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.1);
+}
+
+.m-c-upload {
+  width: 300px;
+  height: 400px;
+  border-radius: 20px;
+  border: 3px dotted var(--black-transparent);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 5px;
+  padding: 30px;
+  text-align: center;
+  position: relative;
+}
+.m-c-upload input {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.m-c-info {
+  width: 300px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
 }
 /* about section_________________ */
 #About {
