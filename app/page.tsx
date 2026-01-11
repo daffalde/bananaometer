@@ -6,33 +6,84 @@ import Navbar from "./components/Navbar";
 import { useInView } from "react-intersection-observer";
 import Link from "next/link";
 import { ChangeEvent, useState } from "react";
+import { buildStyles, CircularProgressbar } from "react-circular-progressbar";
+
+// --- INTERFACES (Tetap dipertahankan) ---
+interface dataRipe {
+  success: boolean;
+  warning: string | null;
+  classification: { label: string; confidence: string };
+  detailed_analysis: {
+    brix_value: number;
+    sugar_tablespoons: string;
+    spot_percentage: string;
+    recommendation: string;
+  };
+}
+
+interface dataNonRipe {
+  success: boolean;
+  warning: string | null;
+  classification: { label: string; confidence: string };
+  detailed_analysis: {
+    brix_value?: number;
+    message?: string;
+    recommendation: string;
+  };
+}
 
 export default function Home() {
-  const { ref, inView } = useInView({
-    threshold: 0.2,
-  });
+  const { ref, inView } = useInView({ threshold: 0.2 });
 
-  // function ambil gambar
+  // --- LOGIKA UPLOAD & API ---
   const [gambar, setGambar] = useState<string | null>(null);
+  const [data, setData] = useState<dataRipe | dataNonRipe | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [valueDate, setValueDate] = useState<string | null>(null);
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-    // Ambil file dengan pengecekan null safety
     const file = e.target.files?.[0];
-
     if (file) {
-      // Membersihkan memori dari URL lama jika ada
-      if (gambar) {
-        URL.revokeObjectURL(gambar);
-      }
-
-      // Buat URL sementara
+      if (gambar) URL.revokeObjectURL(gambar);
       const imageUrl = URL.createObjectURL(file);
       setGambar(imageUrl);
-      console.log(imageUrl);
+
+      // Langsung panggil API saat file dipilih
+      apiCall(file);
     }
   };
 
-  // api section
+  const apiCall = async (file: File) => {
+    setIsLoading(true);
+    try {
+      const formData = new FormData();
+      formData.append("file", file); // Sesuaikan key "file" dengan Postman
+
+      const response = await fetch(
+        "https://daffalde-kematanganpisang.hf.space/predict",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      const hasil = await response.json();
+      if (hasil.detailed_analysis.brix_value) {
+        if (hasil.detailed_analysis.brix_value <= 14) {
+          setValueDate("5-7 Hari");
+        } else if (hasil.detailed_analysis.brix_value >= 25) {
+          setValueDate("1-2 Hari");
+        } else {
+          setValueDate("2-4 Hari");
+        }
+      }
+      setData(hasil);
+    } catch (error) {
+      console.error("Gagal memanggil data", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <div className="container">
@@ -76,10 +127,11 @@ export default function Home() {
         <img className="footer-image1" src="/footer1.png" alt="footer image" />
         <div id="Meter">
           <div className="meter-content">
+            {/* --- REVISI BAGIAN UPLOAD --- */}
             <div
               className="m-c-upload"
               style={{
-                backgroundImage: gambar ? `url(${gambar})` : "undefined",
+                backgroundImage: gambar ? `url(${gambar})` : "none",
                 backgroundSize: "cover",
                 backgroundPosition: "center",
               }}
@@ -93,9 +145,96 @@ export default function Home() {
               )}
               <input type="file" accept="image/*" onChange={handleFileChange} />
             </div>
+
+            {/* --- REVISI BAGIAN INFO --- */}
             <div className="m-c-info">
-              <img src="/banana-image.png" alt="banana image" />
-              <h3>Informasi mu akan muncul disini nanti</h3>
+              {isLoading ? (
+                <h3>Sedang Menganalisis...</h3>
+              ) : data ? (
+                <div
+                  className="inner-info"
+                  style={{ textAlign: "left", width: "100%" }}
+                >
+                  {data.warning ? (
+                    <Image
+                      src={"/warning.png"}
+                      alt="Waring icon"
+                      width={75}
+                      height={75}
+                    />
+                  ) : (
+                    <div className="circle-percent">
+                      <CircularProgressbar
+                        value={parseInt(data.classification.confidence)}
+                        text={`${parseInt(
+                          data.classification.confidence
+                        ).toString()}%`}
+                        styles={buildStyles({
+                          // 1. Warna Garis Progres (Path)
+                          pathColor: "#FECB02",
+
+                          // 2. Warna Angka di Tengah (Text)
+                          textColor: "#404040",
+                        })}
+                      />
+                    </div>
+                  )}
+                  <h2 style={{ color: "#404040" }}>
+                    {data.classification.label}
+                  </h2>
+                  <hr style={{ margin: "10px 0", opacity: 0.2 }} />
+
+                  {/* Menampilkan Brix jika ada, jika tidak tampilkan Message */}
+                  {"brix_value" in data.detailed_analysis ? (
+                    <div className="info-gula-hari">
+                      <div className="info-detail">
+                        <p>Setara dengan gula :</p>
+                        <div className="i-d-img">
+                          {Array(
+                            parseInt(data.detailed_analysis.sugar_tablespoons)
+                          )
+                            .fill(0)
+                            .map((_, index) => (
+                              <Image
+                                src={"/sdm.png"}
+                                alt="logo sendok gula"
+                                width={20}
+                                height={20}
+                              />
+                            ))}
+                        </div>
+                        <h2>{data.detailed_analysis.sugar_tablespoons} Sdm</h2>
+                      </div>
+                      <div className="info-detail">
+                        <p>Dapat bertahan hingga :</p>
+                        <div className="i-d-img">
+                          {Array(parseInt(valueDate))
+                            .fill(0)
+                            .map((_, index) => (
+                              <Image
+                                src={"/date.png"}
+                                alt="logo sendok gula"
+                                width={20}
+                                height={20}
+                              />
+                            ))}
+                        </div>
+                        <h2>{valueDate}</h2>
+                      </div>
+                    </div>
+                  ) : null}
+
+                  <p style={{ marginTop: "10px" }}>
+                    <strong>Rekomendasi :</strong> <br />
+                    {data.detailed_analysis.recommendation}
+                  </p>
+                </div>
+              ) : (
+                <>
+                  <img src="/banana-image.png" alt="banana image" />
+                  <h3>Informasi mu akan muncul disini nanti</h3>
+                </>
+              )}
             </div>
           </div>
         </div>
