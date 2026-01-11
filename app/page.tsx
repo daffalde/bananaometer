@@ -39,7 +39,7 @@ export default function Home() {
   const [gambar, setGambar] = useState<string | null>(null);
   const [data, setData] = useState<dataRipe | dataNonRipe | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [valueDate, setValueDate] = useState<string | null>(null);
+  const [valueDate, setValueDate] = useState<string | number | null>(null);
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -200,6 +200,7 @@ export default function Home() {
                             .fill(0)
                             .map((_, index) => (
                               <Image
+                                key={index}
                                 src={"/sdm.png"}
                                 alt="logo sendok gula"
                                 width={20}
@@ -216,6 +217,7 @@ export default function Home() {
                             .fill(0)
                             .map((_, index) => (
                               <Image
+                                key={index}
                                 src={"/date.png"}
                                 alt="logo sendok gula"
                                 width={20}
