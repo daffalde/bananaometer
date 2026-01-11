@@ -39,7 +39,8 @@ export default function Home() {
   const [gambar, setGambar] = useState<string | null>(null);
   const [data, setData] = useState<dataRipe | dataNonRipe | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [valueDate, setValueDate] = useState<string | number | null>(null);
+  const [valueDate, setValueDate] = useState<string | null>(null);
+  const [numberDate, setNumberDate] = useState<number>(0);
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -71,10 +72,13 @@ export default function Home() {
       if (hasil.detailed_analysis.brix_value) {
         if (hasil.detailed_analysis.brix_value <= 14) {
           setValueDate("5-7 Hari");
+          setNumberDate(6);
         } else if (hasil.detailed_analysis.brix_value >= 25) {
           setValueDate("1-2 Hari");
+          setNumberDate(2);
         } else {
           setValueDate("2-4 Hari");
+          setNumberDate(3);
         }
       }
       setData(hasil);
@@ -195,7 +199,10 @@ export default function Home() {
                         <p>Setara dengan gula :</p>
                         <div className="i-d-img">
                           {Array(
-                            parseInt(data.detailed_analysis.sugar_tablespoons)
+                            parseInt(
+                              (data as dataRipe).detailed_analysis
+                                .sugar_tablespoons
+                            )
                           )
                             .fill(0)
                             .map((_, index) => (
@@ -208,12 +215,18 @@ export default function Home() {
                               />
                             ))}
                         </div>
-                        <h2>{data.detailed_analysis.sugar_tablespoons} Sdm</h2>
+                        <h2>
+                          {
+                            (data as dataRipe).detailed_analysis
+                              .sugar_tablespoons
+                          }{" "}
+                          Sdm
+                        </h2>
                       </div>
                       <div className="info-detail">
                         <p>Dapat bertahan hingga :</p>
                         <div className="i-d-img">
-                          {Array(parseInt(valueDate))
+                          {Array(numberDate)
                             .fill(0)
                             .map((_, index) => (
                               <Image
