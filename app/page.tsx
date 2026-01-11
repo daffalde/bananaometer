@@ -187,7 +187,6 @@ export default function Home() {
                   <h2 style={{ color: "#404040" }}>
                     {data.classification.label}
                   </h2>
-                  <hr style={{ margin: "10px 0", opacity: 0.2 }} />
 
                   {/* Menampilkan Brix jika ada, jika tidak tampilkan Message */}
                   {"brix_value" in data.detailed_analysis ? (
@@ -334,6 +333,15 @@ export default function Home() {
                   <h5>YOLO</h5>
                 </div>
               </div>
+            </div>
+            <div className="mobile-about-image">
+              <img src="/g-colab.png" alt="Google Colab logo" />
+              <img src="/next.png" alt="Next.js logo" />
+              <img src="/fastapi.png" alt="FastAPI logo" />
+              <img src="/github.png" alt="GitHub logo" />
+              <img src="/ts.png" alt="TypeScript logo" />
+              <img src="/vercel.png" alt="Vercel logo" />
+              <img src="/hf.png" alt="Hugging Face logo" />
             </div>
           </div>
         </div>

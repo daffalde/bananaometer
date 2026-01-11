@@ -19,7 +19,7 @@
 
 h1 {
   font-family: var(--font-outfit);
-  font-size: 12.5rem;
+  font-size: 12.5vw;
   font-weight: 400;
   color: var(--white);
 }
@@ -129,7 +129,7 @@ p {
 /* hero section______________ */
 .hero-bg {
   width: 100%;
-  height: 100vh;
+  height: 100dvh;
   background-color: var(--yellow);
   overflow: hidden;
   display: flex;
@@ -143,7 +143,7 @@ p {
   position: absolute;
 }
 .hero-text {
-  line-height: 150px;
+  line-height: 12.5vw;
   z-index: 2;
 }
 .hero-text div:nth-child(2) {
@@ -177,7 +177,7 @@ p {
 /* down section_________________ */
 .meter {
   width: 100%;
-  height: 200vh;
+  height: 200dvh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -475,4 +475,102 @@ p {
 .a-d-t-link a:hover {
   text-decoration: underline;
   color: var(--black);
+}
+.mobile-about-image {
+  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+  padding: 10px 20px;
+  background-color: var(--black-transparent);
+  border: 1px solid var(--black-transparent);
+  border-radius: 10px;
+  backdrop-filter: blur(10px);
+}
+.mobile-about-image img {
+  height: 50px;
+}
+/* responsive______________________ */
+
+@media (max-width: 1000px) {
+  .about-content {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+@media (max-width: 700px) {
+  .navbar-head ul {
+    display: none;
+  }
+  .meter-content {
+    flex-direction: column;
+  }
+  .m-c-upload {
+    height: 300px;
+    width: 100%;
+  }
+  .hero-bg-banana {
+    width: auto;
+    height: 100dvh;
+    margin-top: 20vh;
+  }
+  h1 {
+    font-size: 25vw;
+    line-height: 20vw;
+  }
+  .hero-text {
+    margin-bottom: 40vh;
+  }
+  .hero-content {
+    align-items: end;
+    padding: 10px;
+  }
+  .hero-desc {
+    width: 100vw;
+  }
+  .hero-bg {
+    padding: 10px;
+  }
+  .navbar {
+    position: absolute;
+    top: 0;
+    padding: 0;
+  }
+  .navbar-short-logo {
+    display: none;
+  }
+  .meter-content {
+    height: fit-content;
+    min-height: 95dvh;
+    justify-content: start;
+    margin: 20px 10px;
+    width: 100vw;
+  }
+  .inner-info {
+    align-items: center;
+    justify-content: center;
+  }
+  .meter {
+    height: fit-content;
+  }
+  #Meter {
+    height: fit-content;
+  }
+  .m-c-info {
+    width: 100%;
+  }
+}
+@media (max-width: 550px) {
+  .a-d-title {
+    width: 100%;
+  }
+  .about-image {
+    display: none;
+  }
+  #About {
+    padding: 10px;
+  }
 }
