@@ -304,12 +304,12 @@ export default function Home() {
                   kadar gula dan masa konsumsi pisang secara otomatis .
                 </p>
                 <div className="a-d-t-link">
-                  <Link href={"#"}>
+                  <Link href={"https://github.com/daffalde/bananaometer"}>
                     <img src="/link-git.png" alt="github link logo" />
                     <h5>Repository GitHub</h5>
                     <img src="/arrow.png" alt="arrow icon" />
                   </Link>
-                  <Link href={"#"}>
+                  <Link href={"https://www.linkedin.com/in/daffa-alde/"}>
                     <img src="/link-linkedin.png" alt="github link logo" />
                     <h5>Profil Saya</h5>
                     <img src="/arrow.png" alt="arrow icon" />
