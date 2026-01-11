@@ -328,6 +328,21 @@ p {
   gap: 5px;
   margin-bottom: 2px;
 }
+
+.warning-data {
+  width: 100%;
+  background-color: #f77069;
+  color: var(--white);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  border-radius: 10px;
+}
+.warning-data p {
+  color: var(--white);
+  text-align: center;
+}
 /* about section_________________ */
 #About {
   width: 100%;

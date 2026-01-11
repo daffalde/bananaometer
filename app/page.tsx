@@ -156,12 +156,17 @@ export default function Home() {
                   style={{ textAlign: "left", width: "100%" }}
                 >
                   {data.warning ? (
-                    <Image
-                      src={"/warning.png"}
-                      alt="Waring icon"
-                      width={75}
-                      height={75}
-                    />
+                    <>
+                      <div className="warning-data">
+                        <p>{data.warning}</p>
+                      </div>
+                      <Image
+                        src={"/warning.png"}
+                        alt="Waring icon"
+                        width={75}
+                        height={75}
+                      />
+                    </>
                   ) : (
                     <div className="circle-percent">
                       <CircularProgressbar
