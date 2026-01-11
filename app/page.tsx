@@ -5,11 +5,35 @@ import styles from "./page.module.css";
 import Navbar from "./components/Navbar";
 import { useInView } from "react-intersection-observer";
 import Link from "next/link";
+import { ChangeEvent, useState } from "react";
 
 export default function Home() {
   const { ref, inView } = useInView({
     threshold: 0.2,
   });
+
+  // function ambil gambar
+  const [gambar, setGambar] = useState<string | null>(null);
+
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    // Ambil file dengan pengecekan null safety
+    const file = e.target.files?.[0];
+
+    if (file) {
+      // Membersihkan memori dari URL lama jika ada
+      if (gambar) {
+        URL.revokeObjectURL(gambar);
+      }
+
+      // Buat URL sementara
+      const imageUrl = URL.createObjectURL(file);
+      setGambar(imageUrl);
+      console.log(imageUrl);
+    }
+  };
+
+  // api section
+
   return (
     <div className="container">
       <div className="hero-bg" id="Hero">
@@ -52,11 +76,22 @@ export default function Home() {
         <img className="footer-image1" src="/footer1.png" alt="footer image" />
         <div id="Meter">
           <div className="meter-content">
-            <div className="m-c-upload">
-              <img src="/upload.png" alt="upload icon" />
-              <h5>Unggah foto kamu</h5>
-              <h6>Drag & drop foto kamu atau klik area ini.</h6>
-              <input type="file" name="" id="" />
+            <div
+              className="m-c-upload"
+              style={{
+                backgroundImage: gambar ? `url(${gambar})` : "undefined",
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+              }}
+            >
+              {!gambar && (
+                <>
+                  <img src="/upload.png" alt="upload icon" />
+                  <h5>Unggah foto kamu</h5>
+                  <h6>Drag & drop foto kamu atau klik area ini.</h6>
+                </>
+              )}
+              <input type="file" accept="image/*" onChange={handleFileChange} />
             </div>
             <div className="m-c-info">
               <img src="/banana-image.png" alt="banana image" />
