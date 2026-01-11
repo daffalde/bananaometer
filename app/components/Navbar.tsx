@@ -26,12 +26,13 @@ export default function Navbar({ color }: NavbarProps) {
             <Link href={"#About"}>About</Link>
           </li>
         </ul>
-        <button
+        <Link
+          href={"#Meter"}
           style={{ backgroundColor: color, color: invertColor }}
           className="main-button"
         >
           Coba Sekarang
-        </button>
+        </Link>
       </div>
       <div
         className={`navbar-short-logo ${
